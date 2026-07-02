@@ -25,11 +25,16 @@ Deterministic run (mocked LLM, `npm run eval`), as committed in `evals/results/l
 | Accepted-plan invariant violations | 0 |
 | LLM-as-judge (plan quality) | SKIPPED — no judge model on this run |
 
+Live run (`npm run eval:live`, qwen2.5:7b on local hardware — the live path is seeded, so consecutive runs produce identical results), as committed in `evals/results/live-qwen2.5-7b.json`:
+
 | Live-model metrics (Ollama, qwen2.5:7b) | Result |
 |---|---|
-| Schema-valid output rate | pending live run |
-| Emitted-operation legality rate | pending live run |
-| Judge mean intent score | pending live run |
+| Schema-valid output rate | 62/64 fixtures (96.9%) |
+| Operations emitted / accepted / refused by the gate | 70 / 42 / 28 |
+| Illegal operations that survived the gate | 0 |
+| Judge mean intent score | 3.27/5 over 62 fixtures |
+
+The live run reports EVAL FAILED and I committed it anyway: qwen2.5:7b emitted schema-invalid output on two edge-case fixtures (`empty-input-no-ops`, `matrix-comment-missing-card`) and the Zod gate caught both before anything reached the state machine. An eval that cannot fail is not measuring anything. The number that matters is the last invariant: across all 70 operations the model emitted, zero illegal ones survived the gate.
 
 Adversarial fixtures explicitly ask for illegal work — skip the review stage, resurrect a Done card as a member, move to a column that doesn't exist, assign an outsider, blow through a WIP limit — and the system must refuse each one with the correct reason. CI (`.github/workflows/agent-eval.yml`) re-proves this on every push with zero external LLM calls, and the runner exits non-zero if any deterministic metric misses 100%.
 

@@ -1,0 +1,1669 @@
+{
+  "timestamp": "2026-07-02T08:29:19.505Z",
+  "mode": "live",
+  "provider": "ollama:qwen2.5:7b",
+  "totals": {
+    "fixtures": 64,
+    "adversarialFixtures": 34,
+    "operationsEmitted": 70,
+    "operationsAccepted": 42,
+    "operationsRefused": 28,
+    "gateAccuracy": null,
+    "refusalAccuracy": null,
+    "reasonFidelity": null,
+    "malformedOutputsCaught": 0,
+    "unexpectedParseFailures": 2,
+    "invariantViolations": 0,
+    "judge": {
+      "status": "ran",
+      "meanScore": 3.27,
+      "judged": 62
+    }
+  },
+  "fixtures": [
+    {
+      "id": "adversarial-assign-outsider",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_settings",
+            "assigneeId": "user_bob",
+            "note": "Assigned based on input text."
+          },
+          "actual": false,
+          "reason": "Assignee must be a team member"
+        },
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_doing",
+            "note": "Moved to Doing as per the input text."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 3,
+          "rationale": "The proposal misses assigning the task to Bob and starting it on Monday."
+        }
+      }
+    },
+    {
+      "id": "adversarial-backward-missing-criteria",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_vague",
+            "targetColumnId": "col_ready",
+            "note": "Parking vague idea for next sprint."
+          },
+          "actual": false,
+          "reason": "Cannot move to Ready: acceptance criteria required"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving the card back to Ready."
+        }
+      }
+    },
+    {
+      "id": "adversarial-double-jump",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_done",
+            "note": "Marking as done since it is basically done."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The assistant should have proposed at least one operation to reflect the user's intent of grabbing and closing the settings page."
+        }
+      }
+    },
+    {
+      "id": "adversarial-hallucinated-card",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_review",
+            "note": "Per request to move for review."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to REVIEW"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the actionable item of moving the dark-mode card to review."
+        }
+      }
+    },
+    {
+      "id": "adversarial-lead-unapproved-done",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_done",
+            "note": "Pushed to Done as per trust."
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal misses the intent to move the card to Done without formal approval."
+        }
+      }
+    },
+    {
+      "id": "adversarial-member-pulls-back-doing",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_ready",
+            "note": "Throwing back to backlog as requested."
+          },
+          "actual": false,
+          "reason": "Members cannot move cards from Doing to Ready"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposal omits the action entirely and does not reflect the intent to return the auth card to the backlog."
+        }
+      }
+    },
+    {
+      "id": "adversarial-mixed-legit-and-illegal",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_review",
+            "note": "auth flow rework ready for review"
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_sensor",
+            "body": "review has stalled, closing card",
+            "note": "closing sensor calibration due to stall"
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "Both actionable items from the text are accurately captured in the proposed operations."
+        }
+      }
+    },
+    {
+      "id": "adversarial-nonexistent-column",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_onboarding",
+            "targetColumnId": "col_doing",
+            "note": "Temporarily moving to Doing as per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal moves the card to Doing instead of Blocked as instructed."
+        }
+      }
+    },
+    {
+      "id": "adversarial-ready-straight-to-done",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_settings",
+            "body": "We actually did the settings page ages ago on a branch — just close the card straight from the backlog.",
+            "note": "explained why closing card"
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal adds an unnecessary comment rather than closing the card as instructed."
+        }
+      }
+    },
+    {
+      "id": "adversarial-resurrect-done-as-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_launch",
+            "targetColumnId": "col_doing",
+            "note": "reopen for tweaks"
+          },
+          "actual": false,
+          "reason": "Members cannot move cards out of Done"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the actionable items of reopening the checklist and moving it to Doing."
+        }
+      }
+    },
+    {
+      "id": "adversarial-skip-review",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_payments",
+            "targetColumnId": "col_done",
+            "note": "Marked as done per team request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposed operations list is empty, which contradicts the instruction to mark 'Payments retry logic' Done."
+        }
+      }
+    },
+    {
+      "id": "adversarial-unapproved-done",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_sensor",
+            "body": "Closing out as no further action is needed.",
+            "note": "User requested closure."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent to close the card without further action."
+        }
+      }
+    },
+    {
+      "id": "adversarial-wip-blast",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_doing",
+            "title": "refactor telemetry",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P2",
+            "assigneeId": "user_member",
+            "note": "ignoring WIP limit as per instruction"
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_doing",
+            "title": "rewrite the pit display",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P2",
+            "assigneeId": "user_member2",
+            "note": "ignoring WIP limit as per instruction"
+          },
+          "actual": false,
+          "reason": "WIP limit of 2 reached for Doing"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 4,
+          "rationale": "Misses 'rewrite the pit display' task."
+        }
+      }
+    },
+    {
+      "id": "approved-review-to-done",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_done",
+            "note": "Approved and closed out by Dana."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving the 'Sensor calibration' card to the Done column and notes who approved it."
+        }
+      }
+    },
+    {
+      "id": "assign-teammate",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_settings",
+            "assigneeId": "user_member2",
+            "note": "Assigning to user_member2 as per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the actionable intent of assigning the card to user_member2."
+        }
+      }
+    },
+    {
+      "id": "comment-only-status",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_payments",
+            "body": "Waiting on sandbox credentials from Stripe support; no movement today.",
+            "note": "Updating status based on input text."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the main intent of updating the status based on the input text."
+        }
+      }
+    },
+    {
+      "id": "empty-input-no-ops",
+      "adversarial": false,
+      "parse": "failed",
+      "ops": [],
+      "invariantViolations": 0,
+      "error": "LLM operations failed schema validation"
+    },
+    {
+      "id": "matrix-assign-outsider",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_subject",
+            "assigneeId": "user_member",
+            "note": "why: User not found, assigning to available member."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposed operation assigns to an incorrect user and adds unnecessary reasoning not present in the input."
+        }
+      }
+    },
+    {
+      "id": "matrix-assign-teammate",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_subject",
+            "assigneeId": "user_member2",
+            "note": "Assigned as requested."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the actionable intent of assigning the 'Subject card' to 'user_member2'."
+        }
+      }
+    },
+    {
+      "id": "matrix-comment-missing-card",
+      "adversarial": true,
+      "parse": "failed",
+      "ops": [],
+      "invariantViolations": 0,
+      "error": "LLM operations failed schema validation"
+    },
+    {
+      "id": "matrix-comment-valid",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_subject",
+            "body": "Note on subject card: blocked on parts delivery.",
+            "note": "explaining block"
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the note's intent by adding a comment to the subject card."
+        }
+      }
+    },
+    {
+      "id": "matrix-create-nonexistent-column",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Test the claw",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P3",
+            "assigneeId": "null",
+            "note": "Added from input text"
+          },
+          "actual": false,
+          "reason": "Assignee must be a team member"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposal is empty as no operations can be performed given the current state of the board."
+        }
+      }
+    },
+    {
+      "id": "matrix-create-valid-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Label the spare parts bin.",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P3",
+            "assigneeId": "user_member",
+            "note": "Initial creation from input text."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the new task as a card in the 'Ready' column."
+        }
+      }
+    },
+    {
+      "id": "matrix-create-wip-full",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_doing",
+            "title": "fix the flaky limit switch",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P2",
+            "assigneeId": "null",
+            "note": "Added new card as per request"
+          },
+          "actual": false,
+          "reason": "WIP limit of 1 reached for Doing"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposal omits adding the new card entirely."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-done-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-done-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-ready-lead-no-criteria",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move to Ready: acceptance criteria required"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Ready."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-ready-lead-no-team",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move to Ready: Team must be set"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Ready."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-ready-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Ready column."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-ready-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Members cannot move cards from Doing to Ready"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Ready."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-review-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Review column."
+        }
+      }
+    },
+    {
+      "id": "matrix-doing-review-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Review column."
+        }
+      }
+    },
+    {
+      "id": "matrix-done-doing-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Doing column."
+        }
+      }
+    },
+    {
+      "id": "matrix-done-doing-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Members cannot move cards out of Done"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the actual operation of moving the card."
+        }
+      }
+    },
+    {
+      "id": "matrix-done-ready-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Ready column."
+        }
+      }
+    },
+    {
+      "id": "matrix-done-reorder-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Done column."
+        }
+      }
+    },
+    {
+      "id": "matrix-done-review-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Review column."
+        }
+      }
+    },
+    {
+      "id": "matrix-move-nonexistent-card-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "ghost_card",
+            "targetColumnId": "col_review",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Card ghost_card not found on this board"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The input mentions moving a 'Ghost card' but no such card exists on the board."
+        }
+      }
+    },
+    {
+      "id": "matrix-move-nonexistent-column-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Missing column, moving for review"
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposed operation moves the card to 'Doing' instead of 'Missing', which does not match the input text."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-doing-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Doing column."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-doing-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Doing column."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-done-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-done-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-done-owner",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-reorder-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Ready column."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-review-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to REVIEW"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the actual operation of moving the card."
+        }
+      }
+    },
+    {
+      "id": "matrix-ready-review-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to REVIEW"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the actual operation of moving the card."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-doing-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Doing column."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-doing-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Members cannot move cards from Review to Doing"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the actual operation of moving the card."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-done-lead-unapproved",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-done-member-approved",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Done column."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-done-member-unapproved",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Done."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-done-sololead-unapproved",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done",
+            "note": "Moved per request."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving 'Subject card' to the Done column."
+        }
+      }
+    },
+    {
+      "id": "matrix-review-ready-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready",
+            "note": "Moved per request."
+          },
+          "actual": false,
+          "reason": "Cannot move backward from Review to READY"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 2,
+          "rationale": "The proposal omits the action of moving 'Subject card' to Ready."
+        }
+      }
+    },
+    {
+      "id": "owner-reopens-done",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_launch",
+            "targetColumnId": "col_doing",
+            "note": "Reopened due to missing DNS cutover step."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 4,
+          "rationale": "The proposal correctly moves the card to Doing but does not explicitly reopen the checklist."
+        }
+      }
+    },
+    {
+      "id": "parse-error-prose",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_doing",
+            "note": "Moved to Doing as per standup."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the intent of moving the 'Settings page' card to the 'Doing' column."
+        }
+      }
+    },
+    {
+      "id": "parse-error-unknown-op",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_settings",
+            "body": "Card is being removed as per request.",
+            "note": "why"
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The proposal adds a comment instead of removing the card as instructed."
+        }
+      }
+    },
+    {
+      "id": "reorder-priorities",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_onboarding",
+            "targetColumnId": "col_ready",
+            "note": "Prioritize for marketing."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 4,
+          "rationale": "The operation moves the card but doesn't explicitly prioritize for marketing."
+        }
+      }
+    },
+    {
+      "id": "review-feedback-send-back",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_ready",
+            "note": "Offsets still drifting at low temp, sending back for handling cold-start case."
+          },
+          "actual": false,
+          "reason": "Cannot move backward from Review to READY"
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 1,
+          "rationale": "The input text had actionable items that were not captured by any proposed operations."
+        }
+      }
+    },
+    {
+      "id": "ship-report-create-and-move",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_review",
+            "note": "Shipped today"
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Add rate limiting to login endpoint",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P1",
+            "assigneeId": "user_member2",
+            "note": "Follow-up needed: add rate limiting to the login endpoint, P1."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "Both actions in the text are accurately captured without any invention."
+        }
+      }
+    },
+    {
+      "id": "solo-lead-pipeline",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_payments",
+            "targetColumnId": "col_review",
+            "note": "Lead verified payments retry logic end-to-end."
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_payments",
+            "assigneeId": "user_lead2",
+            "note": "Submit for review by another lead."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 4,
+          "rationale": "The proposal misses the part about closing the card after review."
+        }
+      }
+    },
+    {
+      "id": "standup-claim-unassigned",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_onboarding",
+            "assigneeId": "user_lead",
+            "note": "Assigned to lead for onboarding email."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "The proposal accurately captures the actionable intent of taking the onboarding email card and assigns it to the lead."
+        }
+      }
+    },
+    {
+      "id": "standup-shipped-and-starting",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_review",
+            "note": "Moved card to Review as per standup."
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Settings page",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P2",
+            "assigneeId": "user_member",
+            "note": "Created new card for settings page as per standup."
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "Both actionable items from the standup are accurately captured in the proposed operations."
+        }
+      }
+    },
+    {
+      "id": "task-dump-three-creates",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "swap drive motor bracket",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P0",
+            "assigneeId": "user_member",
+            "note": "Backlog dump from planning"
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "rewrite intake tests",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P0",
+            "assigneeId": "user_member2",
+            "note": "Backlog dump from planning"
+          },
+          "actual": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "order spare battery packs (procurement, low priority)",
+            "description": "",
+            "acceptanceCriteria": "",
+            "priority": "P3",
+            "assigneeId": "user_lead2",
+            "note": "Backlog dump from planning"
+          },
+          "actual": true
+        }
+      ],
+      "invariantViolations": 0,
+      "judge": {
+        "status": "ran",
+        "verdict": {
+          "score": 5,
+          "rationale": "All actionable items from the input text are accurately captured in the proposed operations."
+        }
+      }
+    }
+  ]
+}
