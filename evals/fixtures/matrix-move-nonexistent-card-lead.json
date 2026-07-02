@@ -1,0 +1,62 @@
+{
+  "id": "matrix-move-nonexistent-card-lead",
+  "title": "Matrix: move a nonexistent card as LEAD",
+  "adversarial": true,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": []
+  },
+  "actor": {
+    "actorId": "user_lead",
+    "role": "LEAD",
+    "isSoloLead": false
+  },
+  "input": "Move \"Ghost card\" to Review.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "move_card",
+          "cardId": "card_ghost",
+          "targetColumnId": "col_review"
+        },
+        "expectLegal": false,
+        "reasonIncludes": "not found on this board"
+      }
+    ]
+  }
+}

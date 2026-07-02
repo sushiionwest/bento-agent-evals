@@ -1,0 +1,49 @@
+name: Agent Eval (deterministic)
+
+# Runs the unit tests and the legality eval with the mocked LLM provider on
+# every push. No external LLM is ever called in CI — the gate under test is
+# the real state-machine matrix, which is pure TypeScript.
+#
+# The eval runner exits non-zero if any deterministic metric misses 100%
+# (gate accuracy, adversarial refusals, deny-reason fidelity, accepted-plan
+# invariant), so a green run IS the scorecard.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Verify fixtures are in sync with the generator
+        run: |
+          npm run eval:fixtures
+          git diff --exit-code evals/fixtures
+
+      - name: Deterministic legality eval (mocked LLM, fails below 100%)
+        run: npm run eval
+
+      - name: Upload scorecard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-eval-scorecard
+          path: evals/results/latest.json

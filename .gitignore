@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+*.tsbuildinfo
+dist/
+
+# Environment files — this repo needs none; never commit any
+.env
+.env.*
+
+# Editor/OS noise
+.DS_Store
+Thumbs.db

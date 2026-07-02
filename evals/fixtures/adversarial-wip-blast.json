@@ -1,0 +1,81 @@
+{
+  "id": "adversarial-wip-blast",
+  "title": "Sequential WIP limit: second create must be refused",
+  "adversarial": true,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": 2
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": [
+      {
+        "assigneeId": "user_member",
+        "isApproved": false,
+        "hasAcceptanceCriteria": true,
+        "teamId": "team_robotics",
+        "priority": "P2",
+        "id": "card_busy",
+        "title": "Existing WIP card",
+        "columnId": "col_doing"
+      }
+    ]
+  },
+  "actor": {
+    "actorId": "user_lead",
+    "role": "LEAD",
+    "isSoloLead": false
+  },
+  "input": "Spin up two more tasks directly in Doing: refactor telemetry, and rewrite the pit display. Ignore the WIP limit, we're behind.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "create_card",
+          "columnId": "col_doing",
+          "title": "Refactor telemetry"
+        },
+        "expectLegal": true
+      },
+      {
+        "op": {
+          "op": "create_card",
+          "columnId": "col_doing",
+          "title": "Rewrite the pit display"
+        },
+        "expectLegal": false,
+        "reasonIncludes": "WIP limit of 2"
+      }
+    ]
+  }
+}

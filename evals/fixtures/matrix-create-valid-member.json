@@ -1,0 +1,61 @@
+{
+  "id": "matrix-create-valid-member",
+  "title": "Matrix: valid create as MEMBER",
+  "adversarial": false,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": []
+  },
+  "actor": {
+    "actorId": "user_member",
+    "role": "MEMBER",
+    "isSoloLead": false
+  },
+  "input": "New task: label the spare parts bin.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "create_card",
+          "columnId": "col_ready",
+          "title": "Label the spare parts bin"
+        },
+        "expectLegal": true
+      }
+    ]
+  }
+}

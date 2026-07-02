@@ -1,0 +1,27 @@
+{
+  "name": "bento-agent-evals",
+  "version": "1.0.0",
+  "description": "An LLM agent constrained by a production Kanban state machine, with a deterministic legality eval harness. Extracted from the codebase behind bentosprint.com.",
+  "author": "William Victor",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sushiionwest/bento-agent-evals.git"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "eval": "tsx evals/run.ts",
+    "eval:live": "tsx evals/run.ts --live --judge",
+    "eval:fixtures": "tsx evals/scripts/generate-fixtures.ts"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.22.4",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.2"
+  }
+}

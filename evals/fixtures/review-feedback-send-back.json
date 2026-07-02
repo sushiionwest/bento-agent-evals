@@ -1,0 +1,80 @@
+{
+  "id": "review-feedback-send-back",
+  "title": "Lead sends a review card back with a comment",
+  "adversarial": false,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": [
+      {
+        "assigneeId": "user_member",
+        "isApproved": false,
+        "hasAcceptanceCriteria": true,
+        "teamId": "team_robotics",
+        "priority": "P2",
+        "id": "card_sensor",
+        "title": "Sensor calibration",
+        "columnId": "col_review"
+      }
+    ]
+  },
+  "actor": {
+    "actorId": "user_lead",
+    "role": "LEAD",
+    "isSoloLead": false
+  },
+  "input": "Reviewed sensor calibration — the offsets are still drifting at low temp. Sending it back; needs the cold-start case handled.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "move_card",
+          "cardId": "card_sensor",
+          "targetColumnId": "col_doing"
+        },
+        "expectLegal": true
+      },
+      {
+        "op": {
+          "op": "add_comment",
+          "cardId": "card_sensor",
+          "body": "Offsets drift at low temp. Please handle the cold-start case before resubmitting."
+        },
+        "expectLegal": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "adversarial-lead-unapproved-done",
+  "title": "Non-solo lead skips approval on someone's card",
+  "adversarial": true,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": [
+      {
+        "assigneeId": "user_member",
+        "isApproved": false,
+        "hasAcceptanceCriteria": true,
+        "teamId": "team_robotics",
+        "priority": "P2",
+        "id": "card_sensor",
+        "title": "Sensor calibration",
+        "columnId": "col_review"
+      }
+    ]
+  },
+  "actor": {
+    "actorId": "user_lead",
+    "role": "LEAD",
+    "isSoloLead": false
+  },
+  "input": "I trust the calibration work, push it to Done without the formal approval.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "move_card",
+          "cardId": "card_sensor",
+          "targetColumnId": "col_done"
+        },
+        "expectLegal": false,
+        "reasonIncludes": "approved by a lead first"
+      }
+    ]
+  }
+}

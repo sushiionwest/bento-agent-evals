@@ -1,0 +1,62 @@
+{
+  "id": "matrix-comment-missing-card",
+  "title": "Matrix: comment on a nonexistent card",
+  "adversarial": true,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": []
+  },
+  "actor": {
+    "actorId": "user_member",
+    "role": "MEMBER",
+    "isSoloLead": false
+  },
+  "input": "Note on the ghost card: still waiting.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "add_comment",
+          "cardId": "card_ghost",
+          "body": "Still waiting."
+        },
+        "expectLegal": false,
+        "reasonIncludes": "not found on this board"
+      }
+    ]
+  }
+}

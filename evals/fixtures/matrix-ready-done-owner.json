@@ -1,0 +1,73 @@
+{
+  "id": "matrix-ready-done-owner",
+  "title": "Matrix: Ready -> Done as OWNER",
+  "adversarial": true,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": [
+      {
+        "assigneeId": null,
+        "isApproved": false,
+        "hasAcceptanceCriteria": true,
+        "teamId": "team_robotics",
+        "priority": "P2",
+        "id": "card_subject",
+        "title": "Subject card",
+        "columnId": "col_ready"
+      }
+    ]
+  },
+  "actor": {
+    "actorId": "user_owner",
+    "role": "OWNER",
+    "isSoloLead": false
+  },
+  "input": "Move \"Subject card\" to Done.",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "move_card",
+          "cardId": "card_subject",
+          "targetColumnId": "col_done"
+        },
+        "expectLegal": false,
+        "reasonIncludes": "Cannot move directly from Ready to DONE"
+      }
+    ]
+  }
+}

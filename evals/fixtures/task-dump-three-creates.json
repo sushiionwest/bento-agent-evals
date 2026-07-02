@@ -1,0 +1,78 @@
+{
+  "id": "task-dump-three-creates",
+  "title": "Task dump: three new backlog cards",
+  "adversarial": false,
+  "board": {
+    "boardId": "board_demo",
+    "boardName": "Robotics Sprint",
+    "teamId": "team_robotics",
+    "teamMemberIds": [
+      "user_lead",
+      "user_lead2",
+      "user_member",
+      "user_member2"
+    ],
+    "columns": [
+      {
+        "id": "col_ready",
+        "name": "Ready",
+        "stage": "READY",
+        "wipLimit": null
+      },
+      {
+        "id": "col_doing",
+        "name": "Doing",
+        "stage": "DOING",
+        "wipLimit": null
+      },
+      {
+        "id": "col_review",
+        "name": "Review",
+        "stage": "REVIEW",
+        "wipLimit": null
+      },
+      {
+        "id": "col_done",
+        "name": "Done",
+        "stage": "DONE",
+        "wipLimit": null
+      }
+    ],
+    "cards": []
+  },
+  "actor": {
+    "actorId": "user_lead",
+    "role": "LEAD",
+    "isSoloLead": false
+  },
+  "input": "Backlog dump from planning: 1) swap drive motor bracket, 2) rewrite intake tests, 3) order spare battery packs (procurement, low priority).",
+  "mock": {
+    "operations": [
+      {
+        "op": {
+          "op": "create_card",
+          "columnId": "col_ready",
+          "title": "Swap drive motor bracket"
+        },
+        "expectLegal": true
+      },
+      {
+        "op": {
+          "op": "create_card",
+          "columnId": "col_ready",
+          "title": "Rewrite intake tests"
+        },
+        "expectLegal": true
+      },
+      {
+        "op": {
+          "op": "create_card",
+          "columnId": "col_ready",
+          "title": "Order spare battery packs",
+          "priority": "P3"
+        },
+        "expectLegal": true
+      }
+    ]
+  }
+}

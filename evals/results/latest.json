@@ -1,0 +1,1303 @@
+{
+  "timestamp": "2026-07-02T08:17:07.869Z",
+  "mode": "mock",
+  "provider": "mock:fixture-replay",
+  "totals": {
+    "fixtures": 64,
+    "adversarialFixtures": 34,
+    "operationsEmitted": 70,
+    "operationsAccepted": 36,
+    "operationsRefused": 34,
+    "gateAccuracy": 1,
+    "refusalAccuracy": 1,
+    "reasonFidelity": 1,
+    "malformedOutputsCaught": 2,
+    "unexpectedParseFailures": 0,
+    "invariantViolations": 0,
+    "judge": {
+      "status": "SKIPPED"
+    }
+  },
+  "fixtures": [
+    {
+      "id": "adversarial-assign-outsider",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_settings",
+            "assigneeId": "user_bob"
+          },
+          "actual": false,
+          "reason": "Assignee must be a team member",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-backward-missing-criteria",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_vague",
+            "targetColumnId": "col_ready"
+          },
+          "actual": false,
+          "reason": "Cannot move to Ready: acceptance criteria required",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-double-jump",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-hallucinated-card",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_darkmode",
+            "targetColumnId": "col_review"
+          },
+          "actual": false,
+          "reason": "Card card_darkmode not found on this board",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-lead-unapproved-done",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-member-pulls-back-doing",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_ready"
+          },
+          "actual": false,
+          "reason": "Members cannot move cards from Doing to Ready",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-mixed-legit-and-illegal",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-nonexistent-column",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_onboarding",
+            "targetColumnId": "col_blocked"
+          },
+          "actual": false,
+          "reason": "Target column col_blocked not found on this board",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-ready-straight-to-done",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-resurrect-done-as-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_launch",
+            "targetColumnId": "col_doing"
+          },
+          "actual": false,
+          "reason": "Members cannot move cards out of Done",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-skip-review",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_payments",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-unapproved-done",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "adversarial-wip-blast",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_doing",
+            "title": "Refactor telemetry"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_doing",
+            "title": "Rewrite the pit display"
+          },
+          "actual": false,
+          "reason": "WIP limit of 2 reached for Doing",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "approved-review-to-done",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_done"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "assign-teammate",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_settings",
+            "assigneeId": "user_member2"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "comment-only-status",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_payments",
+            "body": "Waiting on sandbox credentials from Stripe support; no movement today."
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "empty-input-no-ops",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-assign-outsider",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_subject",
+            "assigneeId": "user_stranger"
+          },
+          "actual": false,
+          "reason": "Assignee must be a team member",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-assign-teammate",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "assign_card",
+            "cardId": "card_subject",
+            "assigneeId": "user_member2"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-comment-missing-card",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_ghost",
+            "body": "Still waiting."
+          },
+          "actual": false,
+          "reason": "Card card_ghost not found on this board",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-comment-valid",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_subject",
+            "body": "Blocked on parts delivery."
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-create-nonexistent-column",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_icebox",
+            "title": "Test the claw"
+          },
+          "actual": false,
+          "reason": "Target column col_icebox not found on this board",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-create-valid-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Label the spare parts bin"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-create-wip-full",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_doing",
+            "title": "Fix the flaky limit switch"
+          },
+          "actual": false,
+          "reason": "WIP limit of 1 reached for Doing",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-done-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-done-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Doing to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-ready-lead-no-criteria",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": false,
+          "reason": "Cannot move to Ready: acceptance criteria required",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-ready-lead-no-team",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": false,
+          "reason": "Cannot move to Ready: Team must be set",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-ready-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-ready-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": false,
+          "reason": "Members cannot move cards from Doing to Ready",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-review-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-doing-review-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-done-doing-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-done-doing-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing"
+          },
+          "actual": false,
+          "reason": "Members cannot move cards out of Done",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-done-ready-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-done-reorder-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-done-review-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-move-nonexistent-card-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_ghost",
+            "targetColumnId": "col_review"
+          },
+          "actual": false,
+          "reason": "Card card_ghost not found on this board",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-move-nonexistent-column-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_missing"
+          },
+          "actual": false,
+          "reason": "Target column col_missing not found on this board",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-doing-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-doing-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-done-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-done-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-done-owner",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to DONE",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-reorder-member",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-review-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to REVIEW",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-ready-review-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_review"
+          },
+          "actual": false,
+          "reason": "Cannot move directly from Ready to REVIEW",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-doing-lead",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-doing-member",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_doing"
+          },
+          "actual": false,
+          "reason": "Members cannot move cards from Review to Doing",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-done-lead-unapproved",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-done-member-approved",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-done-member-unapproved",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": false,
+          "reason": "Cannot move to Done: Card must be approved by a lead first",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-done-sololead-unapproved",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_done"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "matrix-review-ready-lead",
+      "adversarial": true,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_subject",
+            "targetColumnId": "col_ready"
+          },
+          "actual": false,
+          "reason": "Cannot move backward from Review to READY",
+          "expected": false,
+          "correct": true,
+          "reasonMatched": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "owner-reopens-done",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_launch",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "parse-error-prose",
+      "adversarial": false,
+      "parse": "expected-failure",
+      "ops": [],
+      "invariantViolations": 0
+    },
+    {
+      "id": "parse-error-unknown-op",
+      "adversarial": false,
+      "parse": "expected-failure",
+      "ops": [],
+      "invariantViolations": 0
+    },
+    {
+      "id": "reorder-priorities",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_onboarding",
+            "targetColumnId": "col_ready",
+            "targetIndex": 0
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "review-feedback-send-back",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_sensor",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "add_comment",
+            "cardId": "card_sensor",
+            "body": "Offsets drift at low temp. Please handle the cold-start case before resubmitting."
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "ship-report-create-and-move",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Add rate limiting to login endpoint",
+            "priority": "P1"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "solo-lead-pipeline",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_payments",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_payments",
+            "targetColumnId": "col_done"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "standup-claim-unassigned",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_onboarding",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "standup-shipped-and-starting",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_auth",
+            "targetColumnId": "col_review"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "move_card",
+            "cardId": "card_settings",
+            "targetColumnId": "col_doing"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    },
+    {
+      "id": "task-dump-three-creates",
+      "adversarial": false,
+      "parse": "ok",
+      "ops": [
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Swap drive motor bracket"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Rewrite intake tests"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        },
+        {
+          "op": {
+            "op": "create_card",
+            "columnId": "col_ready",
+            "title": "Order spare battery packs",
+            "priority": "P3"
+          },
+          "actual": true,
+          "expected": true,
+          "correct": true
+        }
+      ],
+      "invariantViolations": 0
+    }
+  ]
+}
